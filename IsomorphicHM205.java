@@ -31,11 +31,11 @@ class IsomorphicHM205{
                 if(t!=stMap.get(s)) return false;
             }
             //tMap
-            if(!tsMap.containsKey(s)){
-                tsMap.put(s,t);
+            if(!tsMap.containsKey(t)){
+                tsMap.put(t,s);
             }
             else {
-                if(t!=tsMap.get(s)) return false;
+                if(s!=tsMap.get(t)) return false;
             }
 
         }
