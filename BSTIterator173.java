@@ -5,7 +5,7 @@
 
 import java.util.Stack;
 
-class BSTIterator {
+class BSTIterator173 {
     public class TreeNode {
         int val;
         TreeNode left;
@@ -14,7 +14,7 @@ class BSTIterator {
     }
     Stack<TreeNode> st = new Stack<>();
 
-    public BSTIterator(TreeNode root) {
+    public BSTIterator173(TreeNode root) {
         st = new Stack<>();        
         TreeNode node =root;
         dfs(node);
@@ -41,9 +41,42 @@ class BSTIterator {
     }
 }
 
+
 /**
- * Your BSTIterator object will be instantiated and called as such:
- * BSTIterator obj = new BSTIterator(root);
- * int param_1 = obj.next();
- * boolean param_2 = obj.hasNext();
- */
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ 
+class BSTIterator {
+
+    Stack <TreeNode> stack;
+    
+    public BSTIterator(TreeNode root) {
+        stack = new Stack<>();
+        TreeNode cursor = root;
+        while(cursor!=null){
+            stack.push(cursor);
+            cursor = cursor.left;
+        }
+    }
+    
+    public int next() {
+        TreeNode result = stack.pop();
+        TreeNode cursor = result.right;
+        while(cursor!=null){
+            stack.push(cursor);
+            cursor = cursor.left;
+        }
+        return result.val;
+    }
+    
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+}
+
+*/
