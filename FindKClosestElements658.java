@@ -17,7 +17,8 @@ class FindKClosestElements658 {
         
         while(low<high){
             int mid = low + (high-low)/2;
-            if(Math.abs(x-nums[mid]) > Math.abs(nums[mid+k]-x)){
+          //  if(Math.abs(x-nums[mid]) > Math.abs(nums[mid+k]-x)){
+            if(x-nums[mid] > nums[mid+k]-x) {
                 low = mid + 1;
             } else {
                 high = mid;
