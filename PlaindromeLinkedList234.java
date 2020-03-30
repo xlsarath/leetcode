@@ -3,7 +3,7 @@
 //leetcode : yes
 //steps : reversed from mid and crossverified each element at a time in both list..if every element matches and able to reach last point then it's palindrome.
 
-class Solution {
+class PlaindromeLinkedList234 {
     public class ListNode {
         int val;
         ListNode next;
