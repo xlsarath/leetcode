@@ -26,7 +26,7 @@ public class FalttenNestedListIterator341 implements Iterator<Integer> {
     Stack<Iterator<NestedInteger>> stack;
     Integer cursor;
 
-    public FalttenNestedListIterator341(List<NestedInteger> nestedList) {
+    public FalttenNestedListIterator341(final List<NestedInteger> nestedList) {
         stack = new Stack<>();
     if(nestedList!=null){
         stack.push(nestedList.iterator());
@@ -35,7 +35,7 @@ public class FalttenNestedListIterator341 implements Iterator<Integer> {
 
 @Override
 public Integer next() {
-    int value = cursor;
+    final int value = cursor;
     cursor =null;
     return value;
 }
@@ -51,11 +51,11 @@ public boolean hasNext() {
         }
         
         
-        Iterator<NestedInteger> iterator = stack.peek();
+        final Iterator<NestedInteger> iterator = stack.peek();
         if(!iterator.hasNext()){
             stack.pop();
         } else {
-            NestedInteger nestedInteger =  iterator.next();
+            final NestedInteger nestedInteger =  iterator.next();
             if(nestedInteger.isInteger()){
                 cursor = nestedInteger.getInteger();
                 hasNext = true;
