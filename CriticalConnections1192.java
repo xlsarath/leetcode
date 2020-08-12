@@ -36,6 +36,7 @@ class CriticalCOnnection1192 {
                 continue;
             }
             dfs(graph, neighbor, current, discover, lowest);
+            
             if(lowest[neighbor] > discover[current]) 
                 criticalConnections.add(Arrays.asList(current,neighbor));
             lowest[current] = Math.min(lowest[current],lowest[neighbor]);
