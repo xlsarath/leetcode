@@ -2,73 +2,94 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LinkedList;
 
 class CriticalCOnnection1192 {
-
-    int time = 0;
-    List<List<Integer>> criticalConnections;
-    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
     
-        criticalConnections = new ArrayList<>();
-        HashMap<Integer, List<Integer>> graph = new HashMap<>();
-        buildGraph(connections, n, graph);
-
-        int [] discover = new int[n];
-        Arrays.fill(discover, -1);
-        int [] lowest = new int[n];
-
-        dfs(graph, 0 , 0, discover, lowest);
-
-        return criticalConnections;
-    }
-        
-    private void dfs(HashMap<Integer, List<Integer>> graph, int current, int parent, int[] discover, int[] lowest) {
-
-        //base 
-        if( discover[current] != -1) return;
-
-        discover[current] = time;
-        lowest[current] = time;
-        time++;
-
-        for(Integer neighbor : graph.get(current)){
-            if(neighbor == parent){
-                continue;
-            }
-            dfs(graph, neighbor, current, discover, lowest);
+    
+        int time;
+        public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
             
-            if(lowest[neighbor] > discover[current]) 
-                criticalConnections.add(Arrays.asList(current,neighbor));
-            lowest[current] = Math.min(lowest[current],lowest[neighbor]);
-        
+            
+            List<List<Integer>> result = new LinkedList<>();
+            
+            //base case
+            if(connections.size() == 0 || n == 0 || connections == null) return result;
+            
+            //init graph
+            List<Integer>[] adjacencyList = createGraph(n, connections, false);
+            
+            //book-keeping
+            boolean[] visited = new boolean[n];
+            int[] discoveryTime = new int[n];
+            int[] lowTime = new int[n];
+            int[] parent = new int[n];
+            time =0;
+            
+            //call dfsVisit for unvisited nodes
+            for(int u = 0 ; u < n; u++){
+              // if(!visited[u])
+                    dfs(adjacencyList, u , visited, discoveryTime, lowTime, parent, result);
             }
-        return;
-
-
-    }
-
-    // [[0,1],[1,2],[2,0],[1,3]]
-    private void buildGraph(List<List<Integer>> connections, int n, HashMap<Integer, List<Integer>> graph) {
-
-        for (int i = 0; i < n ; i++){
-            graph.put(i, new ArrayList<>());
+            
+            return result;
+            
         }
-
-        for(List<Integer> edge : connections){
-            int from = edge.get(0);
-            int to = edge.get(1);
-
-            graph.get(from).add(to);
-            graph.get(to).add(from);
-
-            // 0 -- 1,2
-            // 1 -- 0,2,3
-            // 2 -- 0,1
-            // 3 -- 1  
+        
+        public List<Integer>[] createGraph(int n, List<List<Integer>> edges, boolean printGraph){
+        List<Integer>[] adjacencyList = new LinkedList[n];
+            
+            // create graph with just the vertices
+            for(int i = 0 ; i < n ; i++){
+                adjacencyList[i] = new LinkedList<>();
+            }
+            
+            //add edges
+            for(List<Integer> edge : edges){
+                int u = edge.get(0);
+                int v = edge.get(1);
+                adjacencyList[u].add(v);
+                adjacencyList[v].add(u);
+            }
+            //print graph
+            if(printGraph){
+                for(int i = 0 ; i < n; i ++){
+                    System.out.println(i +" : "+ adjacencyList[i]);
+                }
+            }
+            return adjacencyList;
+            
         }
-        return;
-
-    }
+        
+        
+        public void dfs(List<Integer>[] adjacencyList, int u, boolean[] visited, int[] discoveryTime, int[] lowTime, int[] parent, List<List<Integer>> result){
+            // mark visited
+            visited[u] = true;
+            
+            // update time
+            time++;
+            discoveryTime[u] = time;
+            lowTime[u] = time;
+            //iterate on neighbours
+            for(int v : adjacencyList[u]){
+                if(!visited[v]){
+                    parent[v] = u;
+                    dfs(adjacencyList, v, visited, discoveryTime, lowTime, parent, result);
+                    lowTime[u] = Math.min(lowTime[u],lowTime[v]);
+                    if(lowTime[v] > discoveryTime[u]) { // bridge detected
+            List<Integer> edge = new LinkedList<>();
+            edge.add(u);
+                        edge.add(v);
+                        result.add(edge);
+                    }
+                } else if( v != parent[u]){
+                    lowTime[u] = Math.min(lowTime[u], discoveryTime[v]);
+                } 
+            }
+            
+            
+        }
+    
 public static void main(String[] args) {
     List<List<Integer>> ls = new   ArrayList<List<Integer>>();
     List<Integer> l1 = new ArrayList<>();
