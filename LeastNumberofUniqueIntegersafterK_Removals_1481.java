@@ -14,13 +14,13 @@ public class LeastNumberofUniqueIntegersafterK_Removals_1481 {
 
         while(idx < n && k > 0){
             k -= map.get(list.get(idx++));
-            if(k > 0) remove++;
+            if(k >= 0) remove++;
         }
         return n - remove;
     }
 
     public static void main(String[] args) {
-        System.out.println(new LeastNumberofUniqueIntegersafterK_Removals_1481().findLeastNumOfUniqueInts(new int[]{4,3,1,1,3,3,2}, 3));
+        System.out.println(new LeastNumberofUniqueIntegersafterK_Removals_1481().findLeastNumOfUniqueInts(new int[]{2, 4, 1, 5, 3, 5, 1, 3}, 2));
     }
 
 }

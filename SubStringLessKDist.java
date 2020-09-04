@@ -1,49 +1,42 @@
 import java.util.*;
 // time complexity :  O(n)
-// space complexity : O()
+// space complexity : O(1)
 
 
 public class SubStringLessKDist {
 
+   
     public List<String> subStringMethod(String inputString, int num){
-
-
+        
         //base
-        if(inputString.length() == 0 || inputString == null) return new ArrayList<>();
-
-        int distinct = 0;
-        int chars[] = new int[26];
+        if(inputString == null || inputString.length() == 0) return new ArrayList<>();
+        
         Set<String> set = new HashSet<>();
+        int frequencyCh[] = new int[26];
+        int distinctChars = 0;
         int i = 0;
-        for(; i < inputString.length(); i++){
-            if(chars[inputString.charAt(i) - 'a'] == 0)
-                distinct += 1;
-            chars[inputString.charAt(i) - 'a'] += 1;
+        for(; i < num; i++){
+            if(frequencyCh[inputString.charAt(i) - 'a'] == 0) distinctChars++;
+            frequencyCh[inputString.charAt(i) - 'a']++;
         }
 
-            if(distinct == num -1 )
-                set.add(inputString.substring(i-num, i));
-            
+        if(distinctChars == num) set.add(inputString.substring(i-num,i));  // is its k -1 ..add prefix k-1
         
-            while(i < inputString.length()){
-                if(chars[inputString.charAt(i) - 'a'] == 0)
-                        distinct += 1;
-                chars[inputString.charAt(i) - 'a'] += 1;
-                chars[inputString.charAt(i) - 'a'] -= 1;
-                if(chars[inputString.charAt(i) - 'a'] == 0)
-                    distinct += 1;
-                if(distinct == num -1)
-                    set.add(inputString.substring(i-num+1,i+1));
-                i++;
-            }
-
-            return new ArrayList<>(set);
+        while( i < inputString.length()){
+            if(frequencyCh[inputString.charAt(i) - 'a'] == 0) distinctChars++;
+            frequencyCh[inputString.charAt(i) - 'a']++;
+            frequencyCh[inputString.charAt(i-num) - 'a']--;
+            if(frequencyCh[inputString.charAt(i-num) - 'a'] == 0) distinctChars--;
+            if(distinctChars == num) set.add(inputString.substring(i-num+1,i+1));   // is its k -1 ..add prefix k-1
+            i++;
+        }
+        return new ArrayList<>(set);
         }
 
 
     public static void main(String[] args) {
-        System.out.println(new SubStringLessKDist().subStringMethod("awaglknagawunagwkwagl", 4));
-                
+        for(String s : new SubStringLessKDist().subStringMethod("abacab",3))
+        System.out.println(s);                
     }
 
 }
