@@ -33,7 +33,6 @@ public class SubStringLessKDist {
         return new ArrayList<>(set);
         }
 
-
     public static void main(String[] args) {
         for(String s : new SubStringLessKDist().subStringMethod("abacab",3))
         System.out.println(s);                
