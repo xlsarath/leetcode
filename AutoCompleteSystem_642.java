@@ -110,23 +110,32 @@ public class AutoCompleteSystem_642 {
         }
 
         List<String> result = new ArrayList<>();
-        dfs(result, cursor, new StringBuilder());
+        dfs(result, cursor, new StringBuilder(word));
 
         return result;
     }
 
 
 
-    private void dfs(List<String> result, AutoCompleteSystem_642.TrieNode cursor,StringBuilder sb) {
+    private void dfs(List<String> result, TrieNode cursor,StringBuilder sb) {
 
-        if(cursor.isWord) result.add(sb.toString());
+        if(cursor.isWord) 
+        {result.add(sb.toString());
+            System.out.println(" see "+sb.toString());
+          //  return;
+        }
 
         if(cursor == null) return;
 
         for(int i = 0 ; i < 26; i++){
             if(cursor.childern[i] != null){
-                sb.append((char)i+'a'+"");
-                dfs(result, cursor.childern[i], new StringBuilder(sb.toString()));
+                System.out.println(cursor.childern[i]);
+                System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i));
+                sb.append( ((char) i)+"");
+
+                dfs(result, cursor.childern[i], sb);
+
+                
             }
         }
 
@@ -145,7 +154,7 @@ public class AutoCompleteSystem_642 {
         AutoCompleteSystem_642 a = new AutoCompleteSystem_642();
         a.insert("sam");
         a.insert("sap");
-        System.out.println(a.getAllWordsMatchingPrefix("sa"));
+        System.out.println(a.getAllWordsMatchingPrefix("s"));
         
 
     }
