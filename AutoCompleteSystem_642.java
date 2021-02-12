@@ -75,6 +75,7 @@ public class AutoCompleteSystem_642 {
              cursor = cursor.childern[ch-'a'];       
         }
         cursor.isWord = true;
+        System.out.println(" cursor.isWord "+cursor.isWord);
     }
 
 
@@ -122,18 +123,23 @@ public class AutoCompleteSystem_642 {
         if(cursor.isWord) 
         {result.add(sb.toString());
             System.out.println(" see "+sb.toString());
-          //  return;
+            return;
         }
 
-        if(cursor == null) return;
+        if(cursor == null) {
+            System.out.println(" null enc");
+            return;
+        }
 
         for(int i = 0 ; i < 26; i++){
+           // System.out.println((char) i+" "+i);
             if(cursor.childern[i] != null){
-                System.out.println(cursor.childern[i]);
-                System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i));
+                char b = Integer.toString(i).charAt(0);
+                System.out.println(cursor.childern[i]+" "+(Integer.toString(i).charAt(0))+" "+b);
+              //  System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i));
                 sb.append( ((char) i)+"");
-
-                dfs(result, cursor.childern[i], sb);
+               // TrieNode temp = cursor.childern[i];
+                dfs(result, cursor.childern[i] , sb);
 
                 
             }
