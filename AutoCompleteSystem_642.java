@@ -122,7 +122,8 @@ public class AutoCompleteSystem_642 {
 
         if(cursor.isWord) 
         {result.add(sb.toString());
-            System.out.println(" see "+sb.toString());
+            System.out.println(result);
+           // sb.deleteCharAt(sb.length() - 1);
             return;
         }
 
@@ -134,12 +135,16 @@ public class AutoCompleteSystem_642 {
         for(int i = 0 ; i < 26; i++){
            // System.out.println((char) i+" "+i);
             if(cursor.childern[i] != null){
-                char b = Integer.toString(i).charAt(0);
-                System.out.println(cursor.childern[i]+" "+(Integer.toString(i).charAt(0))+" "+b);
-              //  System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i));
-                sb.append( ((char) i)+"");
+              //  char b = Integer.toString(i).charAt(0);
+              //  System.out.println(cursor.childern[i]+" "+(Integer.toString(i).charAt(0))+" "+b);
+              //  System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i)+" "+i);
+                char b = (char) i;
+                sb.append(String.valueOf(b));
+                System.out.println(sb.toString());
                // TrieNode temp = cursor.childern[i];
-                dfs(result, cursor.childern[i] , sb);
+                
+               dfs(result, cursor.childern[i] , sb);
+              //  sb.deleteCharAt(sb.length() - 1);
 
                 
             }
@@ -160,6 +165,7 @@ public class AutoCompleteSystem_642 {
         AutoCompleteSystem_642 a = new AutoCompleteSystem_642();
         a.insert("sam");
         a.insert("sap");
+        a.insert("sapling");
         System.out.println(a.getAllWordsMatchingPrefix("s"));
         
 
