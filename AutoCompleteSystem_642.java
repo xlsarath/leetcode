@@ -58,108 +58,103 @@ Please remember to RESET your class variables declared in class AutocompleteSyst
 import java.util.*;
 public class AutoCompleteSystem_642 {
 
-    TrieNode root;
-
-    AutoCompleteSystem_642(){
-            
-        root = new TrieNode();
-
+    class TrieNode {
+        public boolean isLeaf;
+        public List<String> cands;
+        HashMap<Character, TrieNode> children;
+        public TrieNode() {
+            isLeaf = false;
+            children = new HashMap<Character, TrieNode>();
+            cands = new LinkedList<String>();
+        }
     }
-
-    public void insert(String word){
-        TrieNode cursor = root;
-        for(int i = 0 ; i < word.length(); i++){
-            char ch = word.charAt(i);
-                if(cursor.childern[ch-'a'] == null)
-                    cursor.childern[ch-'a'] = new TrieNode(); 
-             cursor = cursor.childern[ch-'a'];       
+    class Trie {
+        private TrieNode root;
+        public Trie() {
+            root = new TrieNode();
         }
-        cursor.isWord = true;
-        System.out.println(" cursor.isWord "+cursor.isWord);
-    }
-
-
-    public boolean searchPrefix(String word){
-        TrieNode cursor = root;
-        for(int i = 0; i < word.length(); i++){
-            char ch = word.charAt(i);
-            if(cursor.childern[ch-'a'] == null)
-                return false;
-            cursor  = cursor.childern[ch-'a'];    
-        }
-        return true;
-    }
-
-    public boolean searchWord(String word){
-        TrieNode cursor = root;
-        for(int i = 0; i < word.length(); i++){
-            char ch = word.charAt(i);
-            if(cursor.childern[ch-'a'] == null)
-                return false;
-            cursor  = cursor.childern[ch-'a'];    
-        }
-        return cursor.isWord;
-    }
-
-    public List<List<Character>> getAllWordsMatchingPrefix(String word){
-        TrieNode cursor = root;
-        for(int i = 0; i < word.length(); i++){
-            char ch = word.charAt(i);
-            if(cursor.childern[ch-'a'] == null)
-                return new ArrayList<>();
-            cursor  = cursor.childern[ch-'a'];    
-        }
-
-        List<List<Character>> result = new ArrayList<>();
-        List<Character> state = new ArrayList<>();
-        dfs(result, cursor, state);
-
-        return result;
-    }
-
-
-
-    private void dfs(List<List<Character>> result, TrieNode cursor, List<Character> list) {
-
-        if(cursor.isWord) 
-        { 
-            System.out.println(" >>  ins"+list);
-            result.add(new ArrayList(list));
-            return;
-        }
-
-        if(cursor == null) {
-            System.out.println(" null enc");
-            return;
-        }
-
-        for(int i = 0 ; i < 26; i++){
-            if(cursor.childern[i] != null){
-               char b = (char) (i+'a');
-               list.add(b);
-               dfs(result, cursor.childern[i] , list);
-               list.remove(list.size()-1);                
+        // Inserts a word into the trie.
+        public void insert(String word) {
+            TrieNode node = root;
+            for (int i = 0; i < word.length(); i ++) {
+                HashMap<Character, TrieNode> children = node.children;
+                char c = word.charAt(i);
+                if (!children.containsKey(c)) {
+                    children.put(c, new TrieNode());
+                }
+                children.get(c).cands.add(word);
+                if (i == word.length() - 1) {
+                    children.get(c).isLeaf = true;
+                }
+                node = node.children.get(c);
             }
         }
-
+        private TrieNode searchNode(String pre) {
+            HashMap<Character, TrieNode> children = root.children;
+            TrieNode node = root;
+            for (int i = 0; i < pre.length(); i ++) {
+                if (!children.containsKey(pre.charAt(i))) {
+                    return null;
+                }
+                node = children.get(pre.charAt(i));
+                children = node.children;
+            }
+            return node;
+        }
     }
-
-    class TrieNode {
-        TrieNode[] childern;
-        boolean isWord;
-        TrieNode(){
-            childern = new TrieNode[26];
+    HashMap<String, Integer> count = new HashMap<String, Integer>();
+    Trie trie = new Trie();
+    String curr = "";
+    public AutocompleteSystem(String[] sentences, int[] times) {
+        for (int i = 0; i < sentences.length; i ++) {
+            count.put(sentences[i], times[i]);
+            trie.insert(sentences[i]);
         }
     }
 
-    public static void main(String[] args){
-        
-        AutoCompleteSystem_642 a = new AutoCompleteSystem_642();
-        a.insert("sam");
-        a.insert("sap");
-        a.insert("sling");
-        System.out.println(a.getAllWordsMatchingPrefix("sl"));
-        
+    public List<String> input(char c) {
+        List<String> res = new LinkedList<String>();
+        if (c == '#') {
+            if (!count.containsKey(curr)) {
+                trie.insert(curr);
+                count.put(curr, 1);
+            }
+            else {
+                count.put(curr, count.get(curr) + 1);
+            }
+            curr = "";
+        }
+        else {
+            curr += c;
+            res = getSuggestions();
+        }
 
+        return res;
     }
+    private List<String> getSuggestions() {
+        List<String> res = new LinkedList<String>();
+        TrieNode node = trie.searchNode(curr);
+        if (node == null) {
+            return res;
+        }
+        List<String> cands = node.cands;
+        Collections.sort(cands, new Comparator<String>(){
+            public int compare(String s1, String s2) {
+                if (count.get(s1) != count.get(s2)) {
+                    return count.get(s2) - count.get(s1);
+                }
+                return s1.compareTo(s2);
+            } 
+        });
+        int added = 0; 
+        for (String s:cands) {
+            res.add(s);
+            added ++;
+            if (added > 2) {
+                break;
+            }
+        }
+        return res;
+    }
+
 }
