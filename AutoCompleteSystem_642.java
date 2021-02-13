@@ -134,21 +134,11 @@ public class AutoCompleteSystem_642 {
         }
 
         for(int i = 0 ; i < 26; i++){
-           // System.out.println((char) i+" "+i);
             if(cursor.childern[i] != null){
-                System.out.println(" i val "+i);
-              //  char b = Integer.toString(i).charAt(0);
-              //  System.out.println(cursor.childern[i]+" "+(Integer.toString(i).charAt(0))+" "+b);
-              //  System.out.println((char)i+" nnn"+ (char)(i-26)+" kkk"+(char)(i+26)+" "+Character.toString ((char) i)+" "+i);
-                char b = (char) (i+96);
-                list.add(b);
-               // System.out.println(sb.toString());
-               // TrieNode temp = cursor.childern[i];
-              //  System.out.println(list+" <><>"+b+" >> "+i);
+               char b = (char) (i+'a');
+               list.add(b);
                dfs(result, cursor.childern[i] , list);
-              list.remove(list.size()-1);
-
-                
+               list.remove(list.size()-1);                
             }
         }
 
@@ -168,7 +158,7 @@ public class AutoCompleteSystem_642 {
         a.insert("sam");
         a.insert("sap");
         a.insert("sling");
-        System.out.println(a.getAllWordsMatchingPrefix("s"));
+        System.out.println(a.getAllWordsMatchingPrefix("sl"));
         
 
     }
