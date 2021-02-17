@@ -45,29 +45,32 @@ public class TrieImplementeationWithSerachRetrive {
         return cursor.isWord;
     }
 
-    public List<String> getAllWordsMatchingPrefix(String word){
+    public PriorityQueue<String> getAllWordsMatchingPrefix(String word, int k){
         TrieNode cursor = root;
         for(int i = 0; i < word.length(); i++){
             char ch = word.charAt(i);
             if(cursor.childern[ch-'a'] == null)
-                return new ArrayList<>();
+                return new PriorityQueue<>();
             cursor  = cursor.childern[ch-'a'];    
         }
 
-        List<String> result = new ArrayList<>();
-        List<Character> state = new ArrayList<>();
-        dfs(result, cursor, new StringBuilder(), word);
+        PriorityQueue<String> result = new PriorityQueue<>(
+            (a,b) -> b.compareTo(a)
+        );
+        dfs(result, cursor, new StringBuilder(), word, k);
 
         return result;
     }
 
 
 
-    private void dfs(List<String> result, TrieNode cursor, StringBuilder sb, String word) {
+    private void dfs(PriorityQueue<String> result, TrieNode cursor, StringBuilder sb, String word, int k) {
 
         if(cursor.isWord) 
         { 
             result.add(word+""+sb.toString());
+            if(result.size() > k)
+                result.poll();
             return;
         }
 
@@ -76,7 +79,7 @@ public class TrieImplementeationWithSerachRetrive {
             if(cursor.childern[i] != null){
                char b = (char) (i+'a');
                sb.append(b);
-               dfs(result, cursor.childern[i] , sb, word);
+               dfs(result, cursor.childern[i] , sb, word, k);
                sb.deleteCharAt(sb.length() - 1);            
             }
         }
@@ -102,7 +105,7 @@ public class TrieImplementeationWithSerachRetrive {
         a.insert("bus");
         a.insert("car");
         a.insert("cast");
-        System.out.println(a.getAllWordsMatchingPrefix("c"));
+        System.out.println(a.getAllWordsMatchingPrefix("c",2));
         
 
     }
