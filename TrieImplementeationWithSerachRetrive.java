@@ -1,7 +1,7 @@
 import java.util.*;
 
 //time complexity : for insert O(k), for search O(logk), for retrival with priority queue (nlogk)
-
+//space complexity : O(n)
 
 public class TrieImplementeationWithSerachRetrive {
     
