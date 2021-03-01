@@ -14,10 +14,10 @@ public class AutoSensors {
                 StageSum += Math.abs(i - map.getKey());
             stageSum.add(StageSum);
         }
-        System.out.println(stageSum);
-        int sol = 1;
+        System.out.println(stageSum+" stage sum");
+        int sol = 0;
         for(Integer i : stageSum){
-            sol *= i;
+            sol += i;
         }
 
     
@@ -36,7 +36,8 @@ public class AutoSensors {
                 while(index <= m.length-1 && m[index] <= median ) temp.add(m[index++]);
                 median += median;
                 lists.add(temp);
-                int n = temp.size()%2 == 0  ? temp.get((int)temp.size()/2) : ((temp.get(temp.size() - 1) / 2) + temp.get(temp.size() / 2) / 2);
+                int n = temp.size()%2 == 0  ? temp.get(temp.size()/2) : ((temp.get(temp.size() - 1) / 2) + temp.get(temp.size() / 2) / 2);
+                System.out.println(n+" n values is");
                 map.put(n, temp);
         }
         System.out.println(lists);
@@ -48,6 +49,10 @@ public class AutoSensors {
         int k = 2;
         int m[] = {18,5,2,3,12};
         System.out.println(minCost(k,m, 1.25));
+        int k1 = 1;
+        int m1[] = {2,7,5,8};
+        System.out.println(minCost(k1,m1, 1.25));
+
 
     }
     
