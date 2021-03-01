@@ -6,7 +6,7 @@ public class AutoSensors {
 
         Arrays.sort(m);
         
-        int median = m[m.length-1]/k;
+        int median = (k == m.length -1 || k == 1 )? m[m.length -1] : m[m.length-1]/k;
         List<Integer> stageSum = new ArrayList<>();
         for(Map.Entry<Integer, List<Integer>> map : getLists( k,  m, median).entrySet()){
             int StageSum = 0;
@@ -37,7 +37,7 @@ public class AutoSensors {
                 median += median;
                 lists.add(temp);
                 int n = temp.size()%2 == 0  ? temp.get(temp.size()/2) : ((temp.get(temp.size() - 1) / 2) + temp.get(temp.size() / 2) / 2);
-                System.out.println(n+" n values is");
+                System.out.println(n+" n values is"+temp);
                 map.put(n, temp);
         }
         System.out.println(lists);
