@@ -22,6 +22,36 @@ Output: false
  */
 public class StrobogrammaticNumber{
 
+    public static boolean isStrobogrammaticHashMap(String num){
+        if(num == null || num.length() == 0 ) return false;
+        
+        HashMap<Character,Character> map = new HashMap<>();
+        map.put('0','0');
+        map.put('8','8');
+        map.put('1','1');
+        map.put('6','9');
+        map.put('9','6');
+        
+        int low = 0; int high =num.length() - 1;
+        
+        while(low <= high){
+            
+            char first = num.charAt(low);
+            char last  = num.charAt(high);
+            
+            if(map.containsKey(first) && map.containsKey(last) && map.get(first) != last)
+             return false;
+            else
+              {
+                  low++;
+                  high--;
+              }
+            
+        }
+        
+        return true;
+    }
+
     public static boolean isStrobogrammaticTwoPointer(String num){
 
             //base check
