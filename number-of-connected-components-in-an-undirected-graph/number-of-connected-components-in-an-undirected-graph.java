@@ -1,6 +1,6 @@
 //time complexity :  
     //        this if for Iterative DFS approach : O(V + E)
-    // for UnionFInd/ Disjoint sets  : O(E⋅α(n)).
+    // for UnionFInd/ Disjoint sets  : O(V + E*α(n)).
 //space compelxity DFS : O(V + E)
 // space complexity unionFInd : O(V)
 
