@@ -1,7 +1,57 @@
-//time complexity :  O(V + E)
-//space compelxity : O(V + E)
+//time complexity :  
+    //        this if for Iterative DFS approach : O(V + E)
+    // for UnionFInd/ Disjoint sets  : O(E⋅α(n)).
+//space compelxity DFS : O(V + E)
+// space complexity unionFInd : O(V)
 
 class Solution {
+    
+        public int find(int parent[], int x){
+            
+            if(x == parent[x])
+                return x;
+            return parent[x] = find(parent, parent[x]);
+            
+        }
+    
+    
+        public int unionFind(int parent[], int x, int y, int rank[]){
+            
+            int rootX = find(parent, x);
+            int rootY = find(parent, y);
+            
+            if(rootX == rootY) return 0;
+            else {
+                if(rank[rootX] > rank[rootY]){
+                    rank[rootX] += rank[rootY];
+                    parent[rootY] = rootX;
+                } else {
+                    rank[rootY] += rank[rootX];
+                    parent[rootX] = rootY;
+                }
+                return 1;
+            }
+        }
+    
+        public int countComponents(int n, int[][] edges) {
+            
+            int parent[] = new int[n];
+            int rank[] = new int[n];
+            
+            for(int i = 0 ; i < n; i++){
+                parent[i] = i;
+                rank[i] = 1;
+            }
+            
+            int count = n;
+            for(int i = 0 ; i < edges.length ; i++){
+                count -= unionFind(parent, edges[i][0], edges[i][1], rank);
+            }
+                
+        return count;
+        }
+    
+    /**
     public int countComponents(int n, int[][] edges) {
         
         List<List<Integer>> adjacencyList = new ArrayList<>();
@@ -38,4 +88,5 @@ class Solution {
         }
         
     }
+    */
 }
