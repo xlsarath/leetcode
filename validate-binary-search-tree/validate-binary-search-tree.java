@@ -4,42 +4,33 @@
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode(int x) { val = x; }
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
  * }
  */
-//time complexity : O(n)
-//space complexity : O(n)
 class Solution {
-    //inorder and preorder.
-    //inorder left,root,right
     public boolean isValidBST(TreeNode root) {
         
-        return validate(root);
+        if(root == null) return true;
+        
+        return helper(root, null, null);
     }
     
-    Integer prev = null;
-    
-    public boolean validate(TreeNode node){
-        if(node==null) return true;
         
-        //check left sub tree LST
-        if(validate(node.left)==false) return false;
+    public boolean helper(TreeNode node, Integer low, Integer high){
         
-        if(prev!=null && node.val<=prev) return false;
+        if(node == null) return true;
         
-        //then right subtree
-        prev =node.val;
-        return validate(node.right);
+        
+        if((low != null && node.val <= low) || (high != null && node.val >= high)) return false;
+        
+        return helper(node.right, node.val, high) && helper(node.left, low, node.val);
+        
     }
-    
- /**   
-   private boolean validate(TreeNode node,Integer low, Integer high){
-       if(node == null)
-           return true;
-       if((low!=null && node.val <= low) || (high!=null && node.val >= high))
-           return false;
-       return validate(node.left,low,node.val) && validate(node.right,node.val,high);
-   }
-    */    
     
 }
