@@ -18,7 +18,8 @@ class Solution {
         
         if(root == null) return true;
         
-        return helper(root, null, null);
+       // return helper(root, null, null);
+         return inorder(root);
     }
     
         
@@ -32,5 +33,19 @@ class Solution {
         return helper(node.right, node.val, high) && helper(node.left, low, node.val);
         
     }
+    
+    Integer prev;
+    public boolean inorder(TreeNode node){
+        
+        if(node == null) return true;
+        
+        if(inorder(node.left) == false)  return false;
+        
+        if(prev != null &&  node.val <= prev)  return false;
+        
+        prev = node.val;
+        
+        return inorder(node.right);
+    } 
     
 }
