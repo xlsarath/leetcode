@@ -1,20 +1,25 @@
-//time complexity : O(n)
-//space complexity : O(1)
 class Solution {
     public int maxArea(int[] height) {
         
-        int distance = 0;
+        int result = 0;
         
-        int start = 0, end = height.length -1;
+        if(height.length == 0) return result;
         
-        while(start < end){
+        int start = 0, end = height.length - 1;
+        
+        while(end >= start){
             
-            distance = Math.max(distance,(end - start)*Math.min(height[start],height[end]));
+            int vol = (end - start) * (Math.min(height[end], height[start]));
             
-            if(height[start] < height[end]) start++;
-            else end--;
+            result = Math.max(result, vol);
             
+            if(height[start] > height[end])
+                end--;
+            else 
+                start++;
         }
-        return distance;
+        
+        return result;
+        
     }
 }
