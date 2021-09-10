@@ -3,25 +3,24 @@ class Solution {
         
         List<List<Integer>> result = new ArrayList<>();
         
-        backTracking(candidates, result, new ArrayList<>(), 0, 0, target);
+        backTrack(candidates, target, result, new ArrayList<>(), 0, 0);
         
         return result;
     }
     
-    public void backTracking(int[] candidates, List<List<Integer>> result, List<Integer> state, int sum, int idx, int target){
-        
-        if(sum > target) return;
+    public void backTrack(int[] candidates, int target,List<List<Integer>> result, List<Integer> state, int idx, int sum ){
         
         if(sum == target){
             result.add(new ArrayList<>(state));
+            return;
         }
         
-        
+        if(sum > target) return;
         
         for(int i = idx; i < candidates.length; i++){
             state.add(candidates[i]);
-            backTracking(candidates, result, state, sum + candidates[i], i, target);
-            state.remove(state.size() - 1);
+            backTrack(candidates, target, result, state, i, candidates[i] + sum);
+            state.remove(state.size()-1);
         }
         
     }
