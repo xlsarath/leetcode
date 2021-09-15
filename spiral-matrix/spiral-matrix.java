@@ -1,43 +1,46 @@
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
         
-        List<Integer> res = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         
-        if(matrix.length == 0) return res;
+        if(matrix == null || matrix[0].length == 0) return result;
         
-        int top = 0, bottom = matrix.length-1, right = matrix[0].length-1, left = 0;
+        int top = 0, bottom = matrix.length - 1, left = 0, right = matrix[0].length - 1;
         
-        while( top <= bottom && left <= right){
-            
+         
+           
+        while(left <= right && top <= bottom){
+           
             //left to right
-           for(int cursor = left; cursor <= right; cursor++)
-               res.add(matrix[top][cursor]);
+            for(int cursor = left; cursor <= right; cursor++)
+                result.add(matrix[top][cursor]);
             
             top++;
-            
-            //right to bottom
-            for(int cursor = top; cursor <= bottom; cursor++ )
-                    res.add(matrix[cursor][right]);
+        
+            //top to bottom
+            for(int cursor = top ; cursor <= bottom; cursor++)
+                result.add(matrix[cursor][right]);
             
             right--;
             
-            // bottom to left
+            //right to left
             if(top <= bottom)
                 for(int cursor = right; cursor >= left; cursor--)
-                    res.add(matrix[bottom][cursor]);
+                    result.add(matrix[bottom][cursor]);
+            
             
             bottom--;
             
-            //left to top
+            //bottom to top
             if(left <= right)
-                for(int cursor = bottom; cursor >= top ; cursor--)
-                    res.add(matrix[cursor][left]);
-             
-            left++;   
+                for(int cursor = bottom; cursor >= top; cursor-- )
+                    result.add(matrix[cursor][left]);
             
+            
+            left++;
         }
         
-        return res;
+        return result;
         
     }
 }
