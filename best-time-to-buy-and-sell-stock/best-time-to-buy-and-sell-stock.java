@@ -1,5 +1,3 @@
-//time complexity : O(n)
-//space complexity : O(1)
 class Solution {
     public int maxProfit(int[] prices) {
         
@@ -7,12 +5,12 @@ class Solution {
         
         for(int i = 0 ; i < prices.length; i++){
             
-            min = Integer.min(min, prices[i]);
-
+            min = Math.min(min, prices[i]);
+            
             if(prices[i] > min)
-                profit = Integer.max(profit, prices[i] - min);
+                profit = Math.max(profit, prices[i] - min);
             
         }
-    return profit;        
+        return profit;
     }
 }
