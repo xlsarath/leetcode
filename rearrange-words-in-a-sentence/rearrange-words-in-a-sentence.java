@@ -5,7 +5,7 @@ class Solution {
         
         String arr[] = text.split(" ");
         
-        Arrays.sort(arr, (a,b) -> (a.length() - b.length()));
+        Arrays.sort(arr, (a,b) -> Integer.compare(a.length() , b.length()));
         
         StringBuilder sb = new StringBuilder();
         for(int i = 0 ; i < arr.length; i++){
