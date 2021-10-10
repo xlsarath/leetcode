@@ -1,39 +1,34 @@
 class Solution {
-    
     int max = 0;
-    
     public int maxLength(List<String> arr) {
-    
-        if(arr == null || arr.size() == 0) return 0;
-         backTrack(arr, new StringBuilder(), 0);
         
+        if(arr == null || arr.size() == 0) return max;
+        backTrack(arr, 0, new StringBuilder());
         return max;
     }
     
-    
-    public void backTrack(List<String> arr, StringBuilder sb, int idx){
+    public void backTrack(List<String> arr, int idx, StringBuilder sb){
         
-        boolean isUnique = isUnique(sb);
+        boolean valid = isValid(sb.toString());
         
-        if(isUnique) max = Math.max(max, sb.length());
+        if(valid) max = Math.max(max, sb.length());
         
-        if(idx == arr.size() || !isUnique) return;
-            
+        if(idx == arr.size() || !valid) return;
+        
         for(int i = idx; i < arr.size(); i++){
             sb.append(arr.get(i));
-            backTrack(arr, sb, i+1);
-            sb.delete(sb.length()-arr.get(i).length(),sb.length());
+            backTrack(arr, i+1, sb);
+            sb.delete(sb.length() - arr.get(i).length(), sb.length());
         }
-    }    
+    }
     
-    
-    public boolean isUnique(StringBuilder sb){
+    public boolean isValid(String temp){
         
         HashSet<Character> set = new HashSet<>();
-        for(char ch : sb.toString().toCharArray()){
-            if(set.contains(ch))
-                return false;
-            set.add(ch);   
+        for(int i = 0 ; i < temp.length(); i++){
+            if(set.contains(temp.charAt(i)))
+                    return false;
+            set.add(temp.charAt(i));
         }
         return true;
     }
