@@ -1,0 +1,40 @@
+/**
+For an array A consisting of N integers. I am looking to find the maximum K (from 0 to N − 1) such that there exists a pair of positions (i, j) satisfying K = |i − j| = |A[i] − A[j]|, where |x| denotes absolute value of x. In other words, the distance between positions is equal to the difference between values. A position together with itself (when i = j) is always a valid pair for K = 0 (look at the third example).
+
+Sample Input: A = [2, 2, 2, 1], The function should return 1 as The furthest valid pair is A[2] = 2 and A[3] = 1, as 1 = |2 − 3| = |2 − 1|.
+
+*/
+
+// "static void main" must be defined in a public class.
+public class Main {
+    
+    
+    
+public static int solution(int[] nums) {
+        int n = nums.length;
+        Map<Integer, Integer> map1 = new HashMap<>();
+        Map<Integer, Integer> map2 = new HashMap<>();
+
+        int res = 0;
+        for(int i = 0; i < n; i++){
+            if(!map1.containsKey(i - nums[i])) map1.put(i - nums[i], i);
+            else{
+                res = Math.max(res, i - map1.get(i - nums[i]));
+            }
+        }
+
+        for(int i = 0; i < n; i++){
+            if(!map2.containsKey(i + nums[i])) map2.put(i + nums[i], i);
+            else{
+                res = Math.max(res, i - map2.get(i + nums[i]));
+            }
+        }
+
+        return res;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(solution(new int[]{1000000000}));
+        
+    }
+}
