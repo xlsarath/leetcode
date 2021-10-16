@@ -1,37 +1,27 @@
 class Solution {
     public List<String> letterCasePermutation(String s) {
+        if(s == null || s.length() == 0) return new ArrayList<>();
         
         List<String> result = new ArrayList<>();
-        if(s == null || s.length() == 0) return result;
         
-        HashSet<String> set = new HashSet<>();
-        Queue<String> q = new LinkedList<>();
-        q.offer(s);
-        while(!q.isEmpty()){
-            int size = q.size();
-            for(int i = 0 ; i < size; i++){
-                String  str   = q.poll();
-               // System.out.print(str+" ");
-                   if(set.contains(str)) continue;
-                   else set.add(str);
-                   char ch[] = str.toCharArray();
-                   for(int k = 0 ; k < ch.length; k++){
-                       if(Character.isDigit(ch[k])) continue;
-                       char temp = ch[k];
-                       ch[k] = Character.toLowerCase(ch[k]) ;
-                       q.add(String.valueOf(ch));
-                       ch[k] = Character.toUpperCase(ch[k]) ;
-                       q.add(String.valueOf(ch));
-                       ch[k] = temp;
-                   }
-                   
-               }    
-            }
-            
-            
+        dfs(result, s,"", 0);
         
-        for(String val : set)
-            result.add(val);
-       return result; 
+        return result;
+    }
+    
+    public void dfs(List<String> result, String s, String temp, int idx){
+        
+        if(temp.length() == s.length()){
+            result.add(temp);
+            return;
+        }
+        
+        if(Character.isDigit(s.charAt(idx))){
+            dfs(result, s, temp+s.charAt(idx), idx+1);
+        } else {
+            dfs(result, s, temp+Character.toLowerCase(s.charAt(idx)), idx+1);
+            dfs(result, s, temp+Character.toUpperCase(s.charAt(idx)), idx+1);
+        }
+        
     }
 }
