@@ -1,6 +1,7 @@
 class MyHashMap {
     
     class Node{
+        
         int key, val;
         Node next;
         
@@ -8,38 +9,34 @@ class MyHashMap {
             this.key = key;
             this.val = val;
         }
-        
     }
-    
-    Node nodes[];
 
+    Node nodes[];
     public MyHashMap() {
         nodes = new Node[10000];
     }
     
-    public int getIdx(int key){
+    public int getKey(int key){
         return key%10000;
     }
     
     public Node getElement(int key){
         
-        int idx = getIdx(key);
+        int idx = getKey(key);
         
-        Node cursor = nodes[idx];
-        
-        if(cursor != null){
-            while(cursor.next != null && cursor.next.key != key)
-                cursor = cursor.next;
-            return cursor;
+        Node node = nodes[idx];
+        if(node != null){
+            while(node.next != null && node.next.key != key)
+                node = node.next;
+            return node;
         }
+            
+           Node dummy = new Node(-1,-1);
+           nodes[idx] = dummy;
+           return dummy; 
         
-        Node dummy = new Node(-1,-1);
-        nodes[idx] = dummy;
-        return dummy;
         
     }
-    
-    
     public void put(int key, int value) {
         
         Node node = getElement(key);
@@ -49,7 +46,7 @@ class MyHashMap {
             return;
         }
         
-        Node temp = new Node(key,value);
+        Node temp = new Node(key, value);
         node.next = temp;
         
     }
@@ -60,8 +57,7 @@ class MyHashMap {
         
         if(node.next != null)
             return node.next.val;
-        
-        return -1;
+       return -1; 
     }
     
     public void remove(int key) {
