@@ -10,41 +10,19 @@
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         
-        List<TreeNode> l = new ArrayList<>();
-        HashSet<TreeNode> set = new HashSet<>();
+        if(root == null) return root;
+        if(root.val == p.val || root.val == q.val) return root;
         
-        dfs(root, p, l);
-        for(TreeNode element : l){
-            set.add(element);
-        }
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        TreeNode left = lowestCommonAncestor(root.left, p , q);
         
-        l.clear();
-        dfs(root, q, l);
-        for(int i = l.size()-1 ; i  >= 0 ; i--){
-        if(set.contains(l.get(i)))
-            return l.get(i);
-        }
+        if(left != null && right != null)
+            return root;
+        
+         if(left != null) return left;
+        
+        if(right != null) return right;
         
         return null;
-    }
-    
-    public boolean dfs(TreeNode root, TreeNode node, List<TreeNode> list){
-        
-        if(root == null) return false;
-        if(root == node) {
-            list.add(node);
-            return true;
-        }
-        
-        list.add(root);
-
-        if(dfs(root.left, node, list))
-            return true;
-        
-        if(dfs(root.right, node, list))
-            return true;
-        
-        list.remove(list.size()-1);
-        return false;
     }
 }
