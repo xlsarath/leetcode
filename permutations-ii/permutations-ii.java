@@ -5,25 +5,30 @@ class Solution {
         if(nums == null || nums.length == 0) return new ArrayList<>();
         
         Arrays.sort(nums);
-        
+        boolean flag = false;
         Queue<List<Integer>> q = new LinkedList<>();
         q.offer(new ArrayList<>());
         
         for(int i = 0; i < nums.length; i++){
             int size = q.size();
+            if( i != 0 && nums[i] == nums[i-1])
+                flag = true;
             for(int j = 0 ; j < size; j++){
                 List<Integer> temp = q.poll();
-                for(int k = 0 ; k <= temp.size(); k++){
-                    if( k != 0 && temp.get(k-1) == nums[i] ) break; 
+                int end = temp.size();
+                if(flag) end = temp.indexOf(nums[i]);
+                 for(int k = 0 ; k <= end; k++){
+               // for(int k = 0 ; k <= temp.size(); k++){
+                   // if( k != 0 && temp.get(k-1) == nums[i] ) continue; 
                     List<Integer> subList = new ArrayList<>(temp);
                     subList.add(k,nums[i]);
                     q.offer(subList);
                 }
+               
             }
-            
+             flag = false;
         }
-        
-       
+         
         
         return new ArrayList<>(q);
     }
